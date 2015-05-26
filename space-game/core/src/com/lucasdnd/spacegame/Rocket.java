@@ -10,14 +10,14 @@ import com.lucasdnd.spacegame.util.MathUtils;
 
 public class Rocket extends Entity {
 
-	float width, height, angle, force;
-	int fuel, battery;
-	boolean thursting, rotatingRight, rotatingLeft;
-	boolean rekt;
+	public float width, height, angle, force;
+	public int fuel, battery;
+	public boolean thursting, rotatingRight, rotatingLeft;
+	public boolean rekt;
 	
-	float rotationSpeed;
+	public float rotationSpeed;
 	
-	Vector2 thurst, gravity, speed;
+	public Vector2 thurst, gravity, speed;
 	
 	public Rocket (float x, float y, float width, float height) {
 		super.x = x;

@@ -1,8 +1,9 @@
-package com.lucasdnd.spacegame;
+package com.lucasdnd.spacegame.input;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Vector2;
+import com.lucasdnd.spacegame.SpaceGame;
 
 public class SpaceGestureListener implements GestureListener {
 
@@ -44,11 +45,24 @@ public class SpaceGestureListener implements GestureListener {
 
 	@Override
 	public boolean zoom(float initialDistance, float distance) {
-		if (distance > initialDistance) {
-			((SpaceGame) Gdx.app.getApplicationListener()).camera.zoom -= 0.01f;
+		
+		float zoom = ((SpaceGame) Gdx.app.getApplicationListener()).getCamera().zoom;
+		
+		if (distance >= initialDistance) {
+			if (zoom <= 0.1f) {
+				zoom = 0.1f;
+			} else {
+				zoom -= 0.01f;
+			}
 		} else {
-			((SpaceGame) Gdx.app.getApplicationListener()).camera.zoom += 0.01f;
+			if (zoom >= 2f) {
+				zoom = 2f;
+			} else {
+				zoom += 0.01f;
+			}
 		}
+		
+		((SpaceGame) Gdx.app.getApplicationListener()).getCamera().zoom = zoom;
 		return true;
 	}
 

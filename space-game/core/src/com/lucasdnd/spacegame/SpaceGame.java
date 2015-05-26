@@ -12,6 +12,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.input.GestureDetector;
+import com.lucasdnd.spacegame.input.SpaceGestureListener;
+import com.lucasdnd.spacegame.input.SpaceInputListener;
 import com.lucasdnd.spacegame.util.MathUtils;
 
 public class SpaceGame extends ApplicationAdapter {
@@ -19,7 +21,7 @@ public class SpaceGame extends ApplicationAdapter {
 	OrthographicCamera camera;
 	ShapeRenderer shapeRenderer;
 	SpriteBatch batch;
-    BitmapFont font;
+	BitmapFont font;
 
 	Random r;
 
@@ -98,5 +100,21 @@ public class SpaceGame extends ApplicationAdapter {
 		}
 
 		rocket.render(shapeRenderer);
+	}
+
+	public OrthographicCamera getCamera() {
+		return camera;
+	}
+
+	public void setCamera(OrthographicCamera camera) {
+		this.camera = camera;
+	}
+
+	public Rocket getRocket() {
+		return rocket;
+	}
+
+	public void setRocket(Rocket rocket) {
+		this.rocket = rocket;
 	}
 }
