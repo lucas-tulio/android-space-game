@@ -5,12 +5,13 @@ import java.util.Random;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.input.GestureDetector;
 import com.lucasdnd.spacegame.util.MathUtils;
 
 public class SpaceGame extends ApplicationAdapter {
@@ -29,6 +30,7 @@ public class SpaceGame extends ApplicationAdapter {
 	@Override
 	public void create () {
 		
+		// Game control stuff
 		shapeRenderer = new ShapeRenderer();
 		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		batch = new SpriteBatch();
@@ -36,40 +38,19 @@ public class SpaceGame extends ApplicationAdapter {
 		r = new Random();
 		
 		// Input
-		Gdx.input.setInputProcessor(new InputAdapter () {
-		   public boolean touchDown (int x, int y, int pointer, int button) {
-			   
-			   if (y <= Gdx.graphics.getHeight() / 10) {
-				   create();
-			   } else {
-				   if (x <= Gdx.graphics.getWidth() / 3) {
-					   rocket.rotatingRight = true;
-				   } else if (x > Gdx.graphics.getWidth() / 3 && x <= Gdx.graphics.getWidth() / 3 * 2) {
-					   rocket.thursting = true;
-				   } else {
-					   rocket.rotatingLeft = true;
-				   }
-			   }
-			   
-			   return true;
-		   }
-
-		   public boolean touchUp (int x, int y, int pointer, int button) {
-			   rocket.thursting = false;
-			   rocket.rotatingRight = false;
-			   rocket.rotatingLeft = false;
-			   return true;
-		   }
-		});
+		InputMultiplexer multiplexer = new InputMultiplexer();
+		multiplexer.addProcessor(new GestureDetector(new SpaceGestureListener()));
+		multiplexer.addProcessor(new SpaceInputListener());
+		Gdx.input.setInputProcessor(multiplexer);
 		
 		// Space (background)
 		space = new Space(3000);
 		
 		// Planets
 		planets = new ArrayList<Planet>();
-		planets.add(new Planet(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 10f, 30f));
+		planets.add(new Planet(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 1f, 30f));
 		
-		rocket = new Rocket(planets.get(0).x, planets.get(0).y + 200f, 10f, 30f);
+		rocket = new Rocket(planets.get(0).x, planets.get(0).y + 200f, 4f, 12f);
 	}
 
 	public void update() {

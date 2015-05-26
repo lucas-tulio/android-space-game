@@ -28,7 +28,7 @@ public class Rocket extends Entity {
 		fuel = 100;
 		battery = 100;
 		rotationSpeed = 3f;
-		force = 1f;
+		force = 0.1f;
 		
 		thurst = new Vector2();
 		gravity = new Vector2();
@@ -46,7 +46,7 @@ public class Rocket extends Entity {
 		for (Planet p : planets) {
 			
 			// Pythagoras
-		    float hypotenuse = MathUtils.getHypotenuse(x, p.x, y, p.y);
+		    float hypotenuse = MathUtils.getHypotenuse(x, y, p.x, p.y);
 		    
 		    // Calculate gravity force and angle
 		    float gravitySin = (x - p.x) / hypotenuse;
@@ -68,8 +68,8 @@ public class Rocket extends Entity {
 		    speed.x += -gravity.x + thurst.x;
 		    speed.y += -gravity.y + thurst.y;
 		    
-		    this.x += speed.x / 10f;
-		    this.y += speed.y / 10f;
+		    this.x += speed.x;
+		    this.y += speed.y;
 		}
 	}
 	
