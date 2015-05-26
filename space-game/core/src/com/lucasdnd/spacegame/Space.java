@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
-public class Space extends Entity {
+public class Space {
 	
 	int numStars;
 	float x[], y[];
@@ -25,13 +25,6 @@ public class Space extends Entity {
 		}
 	}
 	
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	@Override
 	public void render(ShapeRenderer shapeRenderer) {
 		shapeRenderer.setColor(Color.WHITE);
         shapeRenderer.begin(ShapeType.Point);

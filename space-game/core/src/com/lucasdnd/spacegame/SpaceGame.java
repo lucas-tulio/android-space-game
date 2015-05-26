@@ -16,8 +16,9 @@ public class SpaceGame extends ApplicationAdapter {
 	
 	Random r;
 	
-	ArrayList<Entity> entities;
+	ArrayList<Planet> planets;
 	Space space;
+	Planet planet;
 	
 	@Override
 	public void create () {
@@ -26,16 +27,17 @@ public class SpaceGame extends ApplicationAdapter {
 		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		r = new Random();
 		
-		// Entities
-		entities = new ArrayList<Entity>();
+		// Space (background)
+		space = new Space(200);
 		
-		// Space
-		space = new Space(100);
+		// Planets
+		planets = new ArrayList<Planet>();
+		planets.add(new Planet(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 10f, 30f));
 	}
 	
 	public void update() {
-		for (Entity e : entities) {
-			e.update();
+		for (Planet p : planets) {
+			p.update();
 		}
 	}
 
@@ -50,5 +52,9 @@ public class SpaceGame extends ApplicationAdapter {
 		
 		// Entities
 		space.render(shapeRenderer);
+		
+		for (Planet p : planets) {
+			p.render(shapeRenderer);
+		}
 	}
 }
