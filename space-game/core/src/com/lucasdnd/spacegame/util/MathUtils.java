@@ -2,18 +2,16 @@ package com.lucasdnd.spacegame.util;
 
 public class MathUtils {
 	
-	public static final float G = 6.673f * (float)Math.pow(10, -11); // Gravitational constant
+	public static final float G = 6.673f * (float)Math.pow(10, -11);			// Gravitational constant
+	public static final float EARTH_MASS = 5.98f * (float)Math.pow(10, 24);		// Real Earth mass
+	public static final float EARTH_RADIUS = 6.38f * (float)Math.pow(10, 6);	// Real Earth radius
 
-	// Planet data
-	public static final float EARTH_MASS = 5.98f * (float)Math.pow(10, 24); // Real Earth mass
-	public static final float EARTH_RADIUS = 6.38f * (float)Math.pow(10, 6); // Real Earth radius
-
-	// Scaling it down
-	public static final float EARTH_RADIUS_IN_PIXELS = 10f;
-	public static final float SCALE = EARTH_RADIUS / EARTH_RADIUS_IN_PIXELS;
+	public static float getGravityForce(float distance, float planetRadius, float planetMass) {
+		return (G * EARTH_MASS / (float)Math.pow(distance * getGravityScale(planetRadius), 2)) * planetMass;
+	}
 	
-	public static float getGravityForce(float distance) {
-		return G * EARTH_MASS / (float)Math.pow(distance * SCALE, 2);
+	private static float getGravityScale(float planetRadius) {
+		return EARTH_RADIUS / planetRadius;
 	}
 	
 	public static float getHypotenuse(float x1, float y1, float x2, float y2) {

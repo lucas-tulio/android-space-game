@@ -50,7 +50,7 @@ public class Rocket extends Entity {
 		    // Calculate gravity force and angle
 		    float gravitySin = (x - p.x) / hypotenuse;
 		    float gravityCos = (y - p.y) / hypotenuse;
-		    float gravityForce = MathUtils.getGravityForce(hypotenuse);
+		    float gravityForce = MathUtils.getGravityForce(hypotenuse, p.mass, p.radius);
 		    gravity.x = gravityForce * gravitySin;
 		    gravity.y = gravityForce * gravityCos;
 		    
