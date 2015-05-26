@@ -15,13 +15,10 @@ public class Planet extends Entity {
 		this.radius = radius;
 	}
 	
-	@Override
 	public void update() {
-		// TODO Auto-generated method stub
-
+		
 	}
-
-	@Override
+	
 	public void render(ShapeRenderer shapeRenderer) {
 		shapeRenderer.begin(ShapeType.Filled);
 		shapeRenderer.setColor(Color.WHITE);

@@ -33,16 +33,19 @@ public class SpaceGame extends ApplicationAdapter {
 		Gdx.input.setInputProcessor(new InputAdapter () {
 		   public boolean touchDown (int x, int y, int pointer, int button) {
 			   
-			   if (x >= Gdx.graphics.getWidth() / 2) {
-				   rocket.rotatingLeft = true;
-			   } else {
+			   if (x <= Gdx.graphics.getWidth() / 3) {
 				   rocket.rotatingRight = true;
+			   } else if (x > Gdx.graphics.getWidth() / 3 && x <= Gdx.graphics.getWidth() / 3 * 2) {
+				   rocket.thursting = true;
+			   } else {
+				   rocket.rotatingLeft = true;
 			   }
 			   
 			   return true;
 		   }
 
 		   public boolean touchUp (int x, int y, int pointer, int button) {
+			   rocket.thursting = false;
 			   rocket.rotatingRight = false;
 			   rocket.rotatingLeft = false;
 			   return true;
@@ -64,7 +67,7 @@ public class SpaceGame extends ApplicationAdapter {
 			p.update();
 		}
 
-		rocket.update();
+		rocket.update(planets);
 	}
 
 	@Override
