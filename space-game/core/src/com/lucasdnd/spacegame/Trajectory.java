@@ -88,6 +88,7 @@ public class Trajectory {
 
 				if (i % drawEvery == 0) {
 					shapeRenderer.begin(ShapeType.Filled);
+					shapeRenderer.setColor(Color.WHITE);
 					shapeRenderer.point(r.x, r.y, 0f);
 					shapeRenderer.end();
 				}
