@@ -15,10 +15,6 @@ public class Planet extends Entity {
 		this.radius = radius;
 	}
 	
-	public void update() {
-		
-	}
-	
 	public void render(ShapeRenderer shapeRenderer) {
 		shapeRenderer.begin(ShapeType.Filled);
 		shapeRenderer.setColor(Color.WHITE);

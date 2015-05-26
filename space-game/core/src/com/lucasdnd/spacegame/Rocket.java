@@ -10,8 +10,7 @@ import com.lucasdnd.spacegame.util.MathUtils;
 
 public class Rocket extends Entity {
 
-	public float width, height, angle, force;
-	public int fuel, battery;
+	public float width, height, angle, force, fuel;
 	public boolean thursting, rotatingRight, rotatingLeft;
 	public boolean rekt;
 	
@@ -25,8 +24,7 @@ public class Rocket extends Entity {
 		this.width = width;
 		this.height = height;
 		
-		fuel = 100;
-		battery = 100;
+		fuel = 1f;
 		rotationSpeed = 3f;
 		force = 0.01f;
 		
@@ -41,6 +39,13 @@ public class Rocket extends Entity {
 			angle += rotationSpeed;
 		} else if (rotatingLeft) {
 			angle -= rotationSpeed;
+		}
+		
+		if (thursting) {
+			fuel -= 0.001f;
+			if (fuel <= 0f) {
+				thursting = false;
+			}
 		}
 		
 		for (Planet p : planets) {

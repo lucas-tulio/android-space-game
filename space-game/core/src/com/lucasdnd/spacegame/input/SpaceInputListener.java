@@ -5,7 +5,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.lucasdnd.spacegame.SpaceGame;
 
 public class SpaceInputListener implements InputProcessor {
-	
+
 	@Override
 	public boolean keyDown(int keycode) {
 		// TODO Auto-generated method stub
@@ -45,7 +45,7 @@ public class SpaceInputListener implements InputProcessor {
 
 	@Override
 	public boolean touchUp(int x, int y, int pointer, int button) {
-		
+
 		if (y >= Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 4) {
 			if (x <= Gdx.graphics.getWidth() / 3) {
 				((SpaceGame) Gdx.app.getApplicationListener()).getRocket().rotatingRight = false;
@@ -56,7 +56,7 @@ public class SpaceInputListener implements InputProcessor {
 				((SpaceGame) Gdx.app.getApplicationListener()).getRocket().rotatingLeft = false;
 			}
 		}
-		
+
 		return true;
 	}
 

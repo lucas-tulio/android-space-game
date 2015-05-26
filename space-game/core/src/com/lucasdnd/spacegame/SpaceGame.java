@@ -6,11 +6,13 @@ import java.util.Random;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.input.GestureDetector;
 import com.lucasdnd.spacegame.input.SpaceGestureListener;
 import com.lucasdnd.spacegame.input.SpaceInputListener;
@@ -20,6 +22,7 @@ public class SpaceGame extends ApplicationAdapter {
 
 	OrthographicCamera camera;
 	ShapeRenderer shapeRenderer;
+	ShapeRenderer uiShapeRenderer;
 	SpriteBatch batch;
 	BitmapFont font;
 
@@ -35,6 +38,7 @@ public class SpaceGame extends ApplicationAdapter {
 		
 		// Game control stuff
 		shapeRenderer = new ShapeRenderer();
+		uiShapeRenderer = new ShapeRenderer();
 		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		batch = new SpriteBatch();
         font = new BitmapFont();
@@ -59,9 +63,8 @@ public class SpaceGame extends ApplicationAdapter {
 	}
 
 	public void update() {
+		
 		for (Planet p : planets) {
-			p.update();
-			
 			if (CollisionChecker.checkRocketPlanetCollision(rocket, p)) {
 				rocket.rekt = true;
 				create();
@@ -85,14 +88,25 @@ public class SpaceGame extends ApplicationAdapter {
 		Gdx.gl20.glClearColor(0, 0, 0, 1);
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
-		// Text
+		// UI
+		uiShapeRenderer.begin(ShapeType.Line);
+		uiShapeRenderer.setColor(Color.WHITE);
+		uiShapeRenderer.rect(80f, Gdx.graphics.getHeight() - 13f, Gdx.graphics.getWidth() - 80f, 12f);
+		uiShapeRenderer.end();
+		uiShapeRenderer.begin(ShapeType.Filled);
+		uiShapeRenderer.setColor(Color.WHITE);
+		uiShapeRenderer.rect(80f + ((1-rocket.fuel) * (Gdx.graphics.getWidth() - 80f)), Gdx.graphics.getHeight() - 13f, (Gdx.graphics.getWidth() - 80f) * rocket.fuel, 12f);
+		uiShapeRenderer.end();
+		
+		// Debug texts
 		batch.begin();
-        font.draw(batch, "r.x: " + rocket.x, 0, Gdx.graphics.getHeight());
-        font.draw(batch, "r.y: " + rocket.y, 0, Gdx.graphics.getHeight() - 20f);
-        font.draw(batch, "p.x: " + planets.get(0).x, 0, Gdx.graphics.getHeight() - 40f);
-        font.draw(batch, "p.y: " + planets.get(0).y, 0, Gdx.graphics.getHeight() - 60f);
-        font.draw(batch, "p.r: " + planets.get(0).radius, 0, Gdx.graphics.getHeight() - 80f);
-        font.draw(batch, "dist: " + MathUtils.getHypotenuse(rocket.x, rocket.y, planets.get(0).x, planets.get(0).y), 0, Gdx.graphics.getHeight() - 100f);
+		font.draw(batch, "Fuel ", 0, Gdx.graphics.getHeight());		
+        font.draw(batch, "r.x: " + rocket.x, 0, Gdx.graphics.getHeight() - 60f);
+        font.draw(batch, "r.y: " + rocket.y, 0, Gdx.graphics.getHeight() - 80f);
+        font.draw(batch, "p.x: " + planets.get(0).x, 0, Gdx.graphics.getHeight() - 100f);
+        font.draw(batch, "p.y: " + planets.get(0).y, 0, Gdx.graphics.getHeight() - 120f);
+        font.draw(batch, "p.r: " + planets.get(0).radius, 0, Gdx.graphics.getHeight() - 140f);
+        font.draw(batch, "dist: " + MathUtils.getHypotenuse(rocket.x, rocket.y, planets.get(0).x, planets.get(0).y), 0, Gdx.graphics.getHeight() - 160f);
         batch.end();
 
 		// Entities
