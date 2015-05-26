@@ -13,6 +13,7 @@ public class Rocket extends Entity {
 	float width, height, angle, force;
 	int fuel, battery;
 	boolean thursting, rotatingRight, rotatingLeft;
+	boolean rekt;
 	
 	float rotationSpeed;
 	
@@ -75,6 +76,7 @@ public class Rocket extends Entity {
 	public void render(ShapeRenderer shapeRenderer) {
 		
         shapeRenderer.begin(ShapeType.Filled);
+        
         if (thursting) {
         	shapeRenderer.setColor(Color.RED);
         } else {
