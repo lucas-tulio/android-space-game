@@ -26,8 +26,8 @@ public class Space {
 	}
 	
 	public void render(ShapeRenderer shapeRenderer) {
+		shapeRenderer.begin(ShapeType.Point);
 		shapeRenderer.setColor(Color.WHITE);
-        shapeRenderer.begin(ShapeType.Point);
         for (int i = 0; i < numStars; i++) {
         	shapeRenderer.point(x[i], y[i], 0);
 		}

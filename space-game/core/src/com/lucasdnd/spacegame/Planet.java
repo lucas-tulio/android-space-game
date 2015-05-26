@@ -23,8 +23,8 @@ public class Planet extends Entity {
 
 	@Override
 	public void render(ShapeRenderer shapeRenderer) {
+		shapeRenderer.begin(ShapeType.Filled);
 		shapeRenderer.setColor(Color.WHITE);
-        shapeRenderer.begin(ShapeType.Filled);
         shapeRenderer.circle(x, y, radius);
 		shapeRenderer.end();
 	}
