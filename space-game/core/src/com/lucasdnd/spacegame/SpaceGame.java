@@ -28,6 +28,7 @@ public class SpaceGame extends ApplicationAdapter {
 	ArrayList<Planet> planets;
 	Space space;
 	Rocket rocket;
+	Trajectory trajectory;
 
 	@Override
 	public void create () {
@@ -52,7 +53,9 @@ public class SpaceGame extends ApplicationAdapter {
 		planets = new ArrayList<Planet>();
 		planets.add(new Planet(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 1f, 30f));
 		
-		rocket = new Rocket(planets.get(0).x, planets.get(0).y + 200f, 4f, 12f);
+		rocket = new Rocket(planets.get(0).x, planets.get(0).y + 400f, 4f, 12f);
+		
+		trajectory = new Trajectory(20, 2000);
 	}
 
 	public void update() {
@@ -100,6 +103,9 @@ public class SpaceGame extends ApplicationAdapter {
 		}
 
 		rocket.render(shapeRenderer);
+		
+		trajectory.calculateAndDraw(planets, rocket, shapeRenderer);
+		trajectory.renderApAndPe(planets, rocket, shapeRenderer);
 	}
 
 	public OrthographicCamera getCamera() {

@@ -28,7 +28,7 @@ public class Rocket extends Entity {
 		fuel = 100;
 		battery = 100;
 		rotationSpeed = 3f;
-		force = 0.1f;
+		force = 0.01f;
 		
 		thurst = new Vector2();
 		gravity = new Vector2();
