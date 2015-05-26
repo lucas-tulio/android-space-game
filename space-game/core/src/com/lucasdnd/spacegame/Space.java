@@ -19,9 +19,14 @@ public class Space {
 		y = new float[numStars];
 		
 		Random r = new Random();
+		int worldSizeX = Gdx.graphics.getWidth() * 5;
+		int worldSizeY = Gdx.graphics.getHeight() * 3;
 		for (int i = 0; i < numStars; i++) {
-			x[i] = r.nextInt(Gdx.graphics.getWidth());
-			y[i] = r.nextInt(Gdx.graphics.getHeight());
+			
+			int randX = r.nextInt(worldSizeX) - worldSizeX / 2;
+			int randY = r.nextInt(worldSizeY) - worldSizeY / 2;
+			x[i] = randX;
+			y[i] = randY;
 		}
 	}
 	

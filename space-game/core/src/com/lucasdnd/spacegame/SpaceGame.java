@@ -31,7 +31,7 @@ public class SpaceGame extends ApplicationAdapter {
 		
 		shapeRenderer = new ShapeRenderer();
 		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		batch = new SpriteBatch();    
+		batch = new SpriteBatch();
         font = new BitmapFont();
 		r = new Random();
 		
@@ -63,7 +63,7 @@ public class SpaceGame extends ApplicationAdapter {
 		});
 		
 		// Space (background)
-		space = new Space(200);
+		space = new Space(3000);
 		
 		// Planets
 		planets = new ArrayList<Planet>();
@@ -83,6 +83,11 @@ public class SpaceGame extends ApplicationAdapter {
 		}
 		
 		rocket.update(planets);
+		
+		// Make the camera follow the rocket
+		camera.position.set(rocket.x, rocket.y, 0f);
+		camera.update();
+		shapeRenderer.setProjectionMatrix(camera.combined);
 	}
 
 	@Override
