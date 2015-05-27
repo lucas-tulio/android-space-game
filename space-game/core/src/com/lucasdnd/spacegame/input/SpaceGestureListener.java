@@ -45,9 +45,9 @@ public class SpaceGestureListener implements GestureListener {
 
 	@Override
 	public boolean zoom(float initialDistance, float distance) {
-		
+
 		float zoom = ((SpaceGame) Gdx.app.getApplicationListener()).getCamera().zoom;
-		
+
 		if (distance >= initialDistance) {
 			if (zoom <= 0.1f) {
 				zoom = 0.1f;
@@ -61,14 +61,13 @@ public class SpaceGestureListener implements GestureListener {
 				zoom += 0.01f;
 			}
 		}
-		
+
 		((SpaceGame) Gdx.app.getApplicationListener()).getCamera().zoom = zoom;
 		return true;
 	}
 
 	@Override
-	public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2,
-			Vector2 pointer1, Vector2 pointer2) {
+	public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2, Vector2 pointer1, Vector2 pointer2) {
 		// TODO Auto-generated method stub
 		return true;
 	}

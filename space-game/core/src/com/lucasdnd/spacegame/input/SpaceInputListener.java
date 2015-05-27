@@ -32,8 +32,7 @@ public class SpaceInputListener implements InputProcessor {
 		} else if (y >= Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 4) {
 			if (x <= Gdx.graphics.getWidth() / 3) {
 				((SpaceGame) Gdx.app.getApplicationListener()).getRocket().rotatingRight = true;
-			} else if (x > Gdx.graphics.getWidth() / 3
-					&& x <= Gdx.graphics.getWidth() / 3 * 2) {
+			} else if (x > Gdx.graphics.getWidth() / 3 && x <= Gdx.graphics.getWidth() / 3 * 2) {
 				((SpaceGame) Gdx.app.getApplicationListener()).getRocket().thursting = true;
 			} else {
 				((SpaceGame) Gdx.app.getApplicationListener()).getRocket().rotatingLeft = true;
@@ -49,8 +48,7 @@ public class SpaceInputListener implements InputProcessor {
 		if (y >= Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 4) {
 			if (x <= Gdx.graphics.getWidth() / 3) {
 				((SpaceGame) Gdx.app.getApplicationListener()).getRocket().rotatingRight = false;
-			} else if (x > Gdx.graphics.getWidth() / 3
-					&& x <= Gdx.graphics.getWidth() / 3 * 2) {
+			} else if (x > Gdx.graphics.getWidth() / 3 && x <= Gdx.graphics.getWidth() / 3 * 2) {
 				((SpaceGame) Gdx.app.getApplicationListener()).getRocket().thursting = false;
 			} else {
 				((SpaceGame) Gdx.app.getApplicationListener()).getRocket().rotatingLeft = false;

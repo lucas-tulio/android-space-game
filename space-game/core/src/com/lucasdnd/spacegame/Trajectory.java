@@ -2,7 +2,9 @@ package com.lucasdnd.spacegame;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
@@ -16,16 +18,15 @@ public class Trajectory {
 	Vector2 apoapsis = new Vector2(0f, 0f);
 	float apoapsisDistance = -100000f;
 
-	int drawEvery, maxPoints;
+	int drawEvery, maxLoops;
 	boolean invertDrawing;
 
-	public Trajectory(int drawEvery, int maxPoints) {
-		this.drawEvery = drawEvery;
-		this.maxPoints = maxPoints;
+	public Trajectory() {
+		this.drawEvery = 30;
+		this.maxLoops = 1000;
 	}
 
-	public void calculateAndDraw(ArrayList<Planet> planets, Rocket rocket,
-			ShapeRenderer shapeRenderer) {
+	public void calculateAndDraw(ArrayList<Planet> planets, Rocket rocket, ShapeRenderer shapeRenderer) {
 
 		// Create a copy of our rocket and run the same calculations
 		// on it. Use the results to draw the trajectory
@@ -40,7 +41,7 @@ public class Trajectory {
 		r.speed.x = rocket.speed.x;
 		r.speed.y = rocket.speed.y;
 
-		for (int i = 0; i < maxPoints; i++) {
+		for (int i = 0; i < maxLoops; i++) {
 			for (Planet p : planets) {
 
 				// Pythagoras
@@ -49,17 +50,14 @@ public class Trajectory {
 				// Calculate gravity force and angle
 				float gravitySin = (r.x - p.x) / hypotenuse;
 				float gravityCos = (r.y - p.y) / hypotenuse;
-				float gravityForce = MathUtils.getGravityForce(hypotenuse,
-						p.mass, p.radius);
+				float gravityForce = MathUtils.getGravityForce(hypotenuse, p.mass, p.radius);
 				r.gravity.x = gravityForce * gravitySin;
 				r.gravity.y = gravityForce * gravityCos;
 
 				// Update thrust vector
 				if (r.thursting) {
-					r.thurst.x = (float) -Math.sin(r.angle * Math.PI / 180)
-							* r.force;
-					r.thurst.y = (float) Math.cos(r.angle * Math.PI / 180)
-							* r.force;
+					r.thurst.x = (float) -Math.sin(r.angle * Math.PI / 180) * r.force;
+					r.thurst.y = (float) Math.cos(r.angle * Math.PI / 180) * r.force;
 				} else {
 					r.thurst.x = 0f;
 					r.thurst.y = 0f;
@@ -83,10 +81,12 @@ public class Trajectory {
 					apoapsisDistance = hypotenuse;
 				}
 
+				// Draw
 				if (i % drawEvery == 0) {
 					shapeRenderer.begin(ShapeType.Filled);
-					shapeRenderer.setColor(Color.WHITE);
-					shapeRenderer.point(r.x, r.y, 0f);
+					Gdx.gl20.glEnable(GL20.GL_BLEND);
+					shapeRenderer.setColor(1f, 1f, 1f, (1f-(float)i/(float)maxLoops));
+					shapeRenderer.circle(r.x, r.y, 2f);
 					shapeRenderer.end();
 				}
 			}
@@ -103,10 +103,9 @@ public class Trajectory {
 		}
 
 		shapeRenderer.begin(ShapeType.Filled);
-		shapeRenderer.setColor(Color.RED);
-		shapeRenderer.ellipse(periapsis.x, periapsis.y, 4f, 4f);
-		shapeRenderer.setColor(Color.BLUE);
-		shapeRenderer.ellipse(apoapsis.x, apoapsis.y, 4f, 4f);
+		shapeRenderer.setColor(Color.WHITE);
+		shapeRenderer.circle(periapsis.x, periapsis.y, 4f);
+		shapeRenderer.circle(apoapsis.x, apoapsis.y, 4f);
 		shapeRenderer.end();
 	}
 }
