@@ -20,6 +20,8 @@ public class Trajectory {
 
 	int drawEvery, maxLoops;
 	boolean invertDrawing;
+	
+	boolean trajectoryChanged;
 
 	public Trajectory() {
 		this.drawEvery = 30;
@@ -69,18 +71,20 @@ public class Trajectory {
 
 				r.x += r.speed.x;
 				r.y += r.speed.y;
-
-				// Get the apoapsis and periapsis
-				if (periapsisDistance > hypotenuse) {
-					periapsis.x = r.x;
-					periapsis.y = r.y;
-					periapsisDistance = hypotenuse;
-				} else if (apoapsisDistance < hypotenuse) {
-					apoapsis.x = r.x;
-					apoapsis.y = r.y;
-					apoapsisDistance = hypotenuse;
+				
+				if (trajectoryChanged) {
+					// Get the apoapsis and periapsis
+					if (periapsisDistance > hypotenuse) {
+						periapsis.x = r.x;
+						periapsis.y = r.y;
+						periapsisDistance = hypotenuse;
+					} else if (apoapsisDistance < hypotenuse) {
+						apoapsis.x = r.x;
+						apoapsis.y = r.y;
+						apoapsisDistance = hypotenuse;
+					}
 				}
-
+				
 				// Draw
 				if (i % drawEvery == 0) {
 					shapeRenderer.begin(ShapeType.Filled);
@@ -94,6 +98,7 @@ public class Trajectory {
 
 		periapsisDistance = 100000f;
 		apoapsisDistance = -100000f;
+		trajectoryChanged = false;
 	}
 
 	public void renderApAndPe(ArrayList<Planet> planets, Rocket rocket, ShapeRenderer shapeRenderer) {
