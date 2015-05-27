@@ -1,5 +1,5 @@
 # android-space-game
-Android space game prototype in libGDX
+Android space game prototype in libGDX. This project is an Android port of this one http://lucasdnd.github.io/2d-astrodynamics/
 
 ### Setup
 
