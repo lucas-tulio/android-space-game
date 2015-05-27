@@ -91,17 +91,17 @@ public class SpaceGame extends ApplicationAdapter {
 		// UI
 		uiShapeRenderer.begin(ShapeType.Line);
 		uiShapeRenderer.setColor(Color.WHITE);
-		uiShapeRenderer.rect(80f, Gdx.graphics.getHeight() - 13f, Gdx.graphics.getWidth() - 80f, 12f);
+		uiShapeRenderer.rect(80f, Gdx.graphics.getHeight() - 33f, Gdx.graphics.getWidth() - 100f, 12f);
 		uiShapeRenderer.end();
 		uiShapeRenderer.begin(ShapeType.Filled);
 		uiShapeRenderer.setColor(Color.WHITE);
-		uiShapeRenderer.rect(80f + ((1 - rocket.fuel) * (Gdx.graphics.getWidth() - 80f)), Gdx.graphics.getHeight() - 13f,
-				(Gdx.graphics.getWidth() - 80f) * rocket.fuel, 12f);
+		uiShapeRenderer.rect(80f + ((1 - rocket.fuel) * (Gdx.graphics.getWidth() - 100f)), Gdx.graphics.getHeight() - 33f,
+				(Gdx.graphics.getWidth() - 100f) * rocket.fuel, 12f);
 		uiShapeRenderer.end();
 
 		// Debug texts
 		batch.begin();
-		font.draw(batch, "Fuel ", 0, Gdx.graphics.getHeight());
+		font.draw(batch, "Fuel ", 0, Gdx.graphics.getHeight() - 20f);
 		font.draw(batch, "r.x: " + rocket.x, 0, Gdx.graphics.getHeight() - 60f);
 		font.draw(batch, "r.y: " + rocket.y, 0, Gdx.graphics.getHeight() - 80f);
 		font.draw(batch, "p.x: " + planets.get(0).x, 0, Gdx.graphics.getHeight() - 100f);
