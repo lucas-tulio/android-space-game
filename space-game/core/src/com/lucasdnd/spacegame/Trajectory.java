@@ -18,17 +18,17 @@ public class Trajectory {
 	Vector2 apoapsis = new Vector2(0f, 0f);
 	float apoapsisDistance = -100000f;
 
-	int drawEvery, maxLoops;
+	int calcResolution, maxLoops;
 	boolean invertDrawing;
 	
 	boolean trajectoryChanged;
 
 	public Trajectory() {
-		this.drawEvery = 30;
+		this.calcResolution = 30;
 		this.maxLoops = 1000;
 	}
 
-	public void calculateAndDraw(ArrayList<Planet> planets, Rocket rocket, ShapeRenderer shapeRenderer) {
+	public void calculateApAndPe(ArrayList<Planet> planets, Rocket rocket, ShapeRenderer shapeRenderer) {
 
 		// Create a copy of our rocket and run the same calculations
 		// on it. Use the results to draw the trajectory
@@ -86,7 +86,7 @@ public class Trajectory {
 				}
 				
 				// Draw
-				if (i % drawEvery == 0) {
+				if (i % calcResolution == 0) {
 					shapeRenderer.begin(ShapeType.Filled);
 					Gdx.gl20.glEnable(GL20.GL_BLEND);
 					shapeRenderer.setColor(1f, 1f, 1f, (1f-(float)i/(float)maxLoops));
@@ -101,7 +101,7 @@ public class Trajectory {
 		trajectoryChanged = false;
 	}
 
-	public void renderApAndPe(ArrayList<Planet> planets, Rocket rocket, ShapeRenderer shapeRenderer) {
+	public void renderOrbitEllipse(ArrayList<Planet> planets, Rocket rocket, ShapeRenderer shapeRenderer) {
 
 		if (planets.size() != 1) {
 			return;

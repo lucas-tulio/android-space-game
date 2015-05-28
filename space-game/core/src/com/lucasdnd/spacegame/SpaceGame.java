@@ -120,8 +120,8 @@ public class SpaceGame extends ApplicationAdapter {
 
 		rocket.render(shapeRenderer);
 
-		trajectory.calculateAndDraw(planets, rocket, shapeRenderer);
-		trajectory.renderApAndPe(planets, rocket, shapeRenderer);
+		trajectory.calculateApAndPe(planets, rocket, shapeRenderer);
+		trajectory.renderOrbitEllipse(planets, rocket, shapeRenderer);
 	}
 
 	public OrthographicCamera getCamera() {
