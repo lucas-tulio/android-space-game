@@ -57,7 +57,7 @@ public class SpaceGame extends ApplicationAdapter {
 
 		// Planets
 		planets = new ArrayList<Planet>();
-		planets.add(new Planet(Gdx.graphics.getWidth() / 2 + 600f, Gdx.graphics.getHeight() / 2, 1f, 30f));
+		planets.add(new Planet(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 1f, 30f));
 
 		rocket = new Rocket(planets.get(0).x, planets.get(0).y + 300f, 4f, 12f);
 

@@ -14,6 +14,8 @@ public class Trajectory {
 
 	Vector2 periapsis = new Vector2(0f, 0f);
 	Vector2 apoapsis = new Vector2(0f, 0f);
+	final float maxOrbitWidth = 1000f;
+	boolean ellipseTooLarge;
 
 	int calcResolution, maxLoops;
 	protected float ellipseX, ellipseY, ellipseWidth, ellipseHeight, ellipseAngle;
@@ -38,8 +40,8 @@ public class Trajectory {
 		r.speed.x = rocket.speed.x;
 		r.speed.y = rocket.speed.y;
 		
-		float periapsisDistance = 100000f;
-		float apoapsisDistance = -100000f;
+		float periapsisDistance = 1000f;
+		float apoapsisDistance = -1000f;
 
 		for (int i = 0; i < maxLoops; i++) {
 			for (Planet p : planets) {
@@ -87,6 +89,12 @@ public class Trajectory {
 		
 		// 1. Find the major axis of the ellipse (width)
 		ellipseWidth = periapsisDistance + apoapsisDistance;
+		if (ellipseWidth > maxOrbitWidth) {
+			ellipseTooLarge = true;
+			return;
+		} else {
+			ellipseTooLarge = false;
+		}
 		
 		// 2. Find the distance between the two foci
 		float fociDistance = apoapsisDistance - periapsisDistance;
@@ -108,7 +116,7 @@ public class Trajectory {
 
 	public void renderOrbitEllipse(ArrayList<Planet> planets, Rocket rocket, ShapeRenderer shapeRenderer, ShapeRenderer ellipseRenderer, Camera camera) {
 
-		if (planets.size() != 1) {
+		if (planets.size() != 1 || ellipseTooLarge) {
 			return;
 		}
 		
