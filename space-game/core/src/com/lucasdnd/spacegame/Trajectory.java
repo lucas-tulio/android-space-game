@@ -113,4 +113,12 @@ public class Trajectory {
 		shapeRenderer.circle(apoapsis.x, apoapsis.y, 4f);
 		shapeRenderer.end();
 	}
+
+	public float getApoapsisDistance() {
+		return apoapsisDistance;
+	}
+
+	public float getPeriapsisDistance() {
+		return periapsisDistance;
+	}
 }

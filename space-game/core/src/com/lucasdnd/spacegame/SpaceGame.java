@@ -109,6 +109,8 @@ public class SpaceGame extends ApplicationAdapter {
 		font.draw(batch, "p.r: " + planets.get(0).radius, 0, Gdx.graphics.getHeight() - 140f);
 		font.draw(batch, "dist: " + MathUtils.getHypotenuse(rocket.x, rocket.y, planets.get(0).x, planets.get(0).y), 0,
 				Gdx.graphics.getHeight() - 160f);
+		font.draw(batch, "ap: " + trajectory.getApoapsisDistance(), 0, Gdx.graphics.getHeight() - 200f);
+		font.draw(batch, "pe: " + trajectory.getPeriapsisDistance(), 0, Gdx.graphics.getHeight() - 220f);
 		batch.end();
 
 		// Entities
