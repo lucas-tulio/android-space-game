@@ -2,7 +2,6 @@ package com.lucasdnd.spacegame;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
@@ -43,7 +42,6 @@ public class Rocket extends Entity {
 		}
 
 		if (thursting) {
-			((SpaceGame)Gdx.app.getApplicationListener()).trajectory.calculateOrbitEllipse(planets, this);
 			fuel -= 0.001f;
 			if (fuel <= 0f) {
 				thursting = false;

@@ -2,9 +2,11 @@ package com.lucasdnd.spacegame;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.lucasdnd.spacegame.util.MathUtils;
 
@@ -90,7 +92,7 @@ public class Trajectory {
 		float fociDistance = apoapsisDistance - periapsisDistance;
 		
 		// 3. Find the minor axis of the ellipse (height)
-		ellipseHeight = (float)Math.sqrt(Math.pow(apoapsisDistance, 2) - Math.pow(fociDistance, 2));
+		ellipseHeight = (float)Math.sqrt(Math.pow(apoapsisDistance + periapsisDistance, 2) - Math.pow(fociDistance, 2));
 		
 		// 4. Find the angle between the periapsis and one of the focus of the ellipse (that would be the planet)
 		// This is the angle at which we'll need to rotate the ellipse when drawing it
@@ -104,29 +106,38 @@ public class Trajectory {
 		ellipseY = (apoapsis.y + periapsis.y) / 2f;
 	}
 
-	public void renderOrbitEllipse(ArrayList<Planet> planets, Rocket rocket, ShapeRenderer shapeRenderer) {
+	public void renderOrbitEllipse(ArrayList<Planet> planets, Rocket rocket, ShapeRenderer shapeRenderer, ShapeRenderer ellipseRenderer, Camera camera) {
 
 		if (planets.size() != 1) {
 			return;
 		}
-
+		
+		// Ap and Pe points
 		shapeRenderer.begin(ShapeType.Filled);
 		shapeRenderer.setColor(Color.WHITE);
 		shapeRenderer.circle(periapsis.x, periapsis.y, 4f);
 		shapeRenderer.circle(apoapsis.x, apoapsis.y, 4f);
 		shapeRenderer.end();
 		
-		shapeRenderer.begin(ShapeType.Line);
-		shapeRenderer.setColor(Color.WHITE);
+		// Orbit Ellipse
+		ellipseRenderer.setProjectionMatrix(new Matrix4());
+		ellipseRenderer.setTransformMatrix(new Matrix4());
+		ellipseRenderer.setProjectionMatrix(camera.combined);
 		
-		float x = ellipseX - ellipseWidth / 2f;
-		float y = ellipseY - ellipseHeight / 2f;
+		ellipseRenderer.begin(ShapeType.Line);
+		ellipseRenderer.setColor(Color.WHITE);
 		
-		shapeRenderer.translate(x, y, 0f);
-		//shapeRenderer.rotate(0f, 0f, 1f, ellipseAngle);
-		shapeRenderer.ellipse(0f, 0f, ellipseWidth, ellipseHeight);
-		//shapeRenderer.rotate(0f, 0f, 1f, -ellipseAngle);
-		shapeRenderer.translate(-x, -y, 0f);
-		shapeRenderer.end();
+		// Translate
+		ellipseRenderer.translate(ellipseX - ellipseWidth / 2f, ellipseY - ellipseHeight / 2f, 0f);
+		
+		// Rotate
+		ellipseRenderer.translate(ellipseWidth/2f, ellipseHeight/2f, 0f);
+		ellipseRenderer.rotate(0f, 0f, 1f, ellipseAngle);
+		ellipseRenderer.translate(-ellipseWidth/2f, -ellipseHeight/2f, 0f);
+		
+		// Draw
+		ellipseRenderer.ellipse(0f, 0f, ellipseWidth, ellipseHeight);
+		ellipseRenderer.end();
+		
 	}
 }

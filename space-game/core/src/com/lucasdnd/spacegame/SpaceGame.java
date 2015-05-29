@@ -23,6 +23,7 @@ public class SpaceGame extends ApplicationAdapter {
 	OrthographicCamera camera;
 	ShapeRenderer shapeRenderer;
 	ShapeRenderer uiShapeRenderer;
+	ShapeRenderer ellipseRenderer;
 	SpriteBatch batch;
 	BitmapFont font;
 
@@ -39,6 +40,7 @@ public class SpaceGame extends ApplicationAdapter {
 		// Game control stuff
 		shapeRenderer = new ShapeRenderer();
 		uiShapeRenderer = new ShapeRenderer();
+		ellipseRenderer = new ShapeRenderer();
 		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		batch = new SpriteBatch();
 		font = new BitmapFont();
@@ -55,9 +57,9 @@ public class SpaceGame extends ApplicationAdapter {
 
 		// Planets
 		planets = new ArrayList<Planet>();
-		planets.add(new Planet(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 1f, 30f));
+		planets.add(new Planet(Gdx.graphics.getWidth() / 2 + 600f, Gdx.graphics.getHeight() / 2, 1f, 30f));
 
-		rocket = new Rocket(planets.get(0).x, planets.get(0).y + 400f, 4f, 12f);
+		rocket = new Rocket(planets.get(0).x, planets.get(0).y + 300f, 4f, 12f);
 
 		trajectory = new Trajectory();
 	}
@@ -72,11 +74,17 @@ public class SpaceGame extends ApplicationAdapter {
 		}
 
 		rocket.update(planets);
+		
+		// Recalculate the ellipse if the rocket is thursting
+		if (rocket.thursting) {
+			trajectory.calculateOrbitEllipse(planets, rocket);
+		}
 
 		// Make the camera follow the rocket
 		camera.position.set(rocket.x, rocket.y, 0f);
 		camera.update();
 		shapeRenderer.setProjectionMatrix(camera.combined);
+		ellipseRenderer.setProjectionMatrix(camera.combined);
 	}
 
 	@Override
@@ -120,7 +128,7 @@ public class SpaceGame extends ApplicationAdapter {
 
 		rocket.render(shapeRenderer);
 		
-		trajectory.renderOrbitEllipse(planets, rocket, shapeRenderer);
+		trajectory.renderOrbitEllipse(planets, rocket, shapeRenderer, ellipseRenderer, camera);
 	}
 
 	public OrthographicCamera getCamera() {

@@ -52,13 +52,13 @@ public class SpaceGestureListener implements GestureListener {
 			if (zoom <= 0.1f) {
 				zoom = 0.1f;
 			} else {
-				zoom -= 0.01f;
+				zoom -= 0.5f;
 			}
 		} else {
-			if (zoom >= 2f) {
-				zoom = 2f;
+			if (zoom >= 500f) {
+				zoom = 500f;
 			} else {
-				zoom += 0.01f;
+				zoom += 0.5f;
 			}
 		}
 
