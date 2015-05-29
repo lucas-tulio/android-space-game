@@ -2,9 +2,7 @@ package com.lucasdnd.spacegame;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
@@ -13,22 +11,17 @@ import com.lucasdnd.spacegame.util.MathUtils;
 public class Trajectory {
 
 	Vector2 periapsis = new Vector2(0f, 0f);
-	float periapsisDistance = 100000f;
-
 	Vector2 apoapsis = new Vector2(0f, 0f);
-	float apoapsisDistance = -100000f;
 
 	int calcResolution, maxLoops;
-	boolean invertDrawing;
-	
-	boolean trajectoryChanged;
+	protected float ellipseX, ellipseY, ellipseWidth, ellipseHeight, ellipseAngle;
 
 	public Trajectory() {
 		this.calcResolution = 30;
 		this.maxLoops = 1000;
 	}
 
-	public void calculateApAndPe(ArrayList<Planet> planets, Rocket rocket, ShapeRenderer shapeRenderer) {
+	public void calculateOrbitEllipse(ArrayList<Planet> planets, Rocket rocket) {
 
 		// Create a copy of our rocket and run the same calculations
 		// on it. Use the results to draw the trajectory
@@ -42,6 +35,9 @@ public class Trajectory {
 		r.thurst.y = rocket.thurst.y;
 		r.speed.x = rocket.speed.x;
 		r.speed.y = rocket.speed.y;
+		
+		float periapsisDistance = 100000f;
+		float apoapsisDistance = -100000f;
 
 		for (int i = 0; i < maxLoops; i++) {
 			for (Planet p : planets) {
@@ -72,33 +68,40 @@ public class Trajectory {
 				r.x += r.speed.x;
 				r.y += r.speed.y;
 				
-				if (trajectoryChanged) {
-					// Get the apoapsis and periapsis
-					if (periapsisDistance > hypotenuse) {
-						periapsis.x = r.x;
-						periapsis.y = r.y;
-						periapsisDistance = hypotenuse;
-					} else if (apoapsisDistance < hypotenuse) {
-						apoapsis.x = r.x;
-						apoapsis.y = r.y;
-						apoapsisDistance = hypotenuse;
-					}
-				}
-				
-				// Draw
-				if (i % calcResolution == 0) {
-					shapeRenderer.begin(ShapeType.Filled);
-					Gdx.gl20.glEnable(GL20.GL_BLEND);
-					shapeRenderer.setColor(1f, 1f, 1f, (1f-(float)i/(float)maxLoops));
-					shapeRenderer.circle(r.x, r.y, 2f);
-					shapeRenderer.end();
+				// Get the apoapsis and periapsis
+				if (periapsisDistance > hypotenuse) {
+					periapsis.x = r.x;
+					periapsis.y = r.y;
+					periapsisDistance = hypotenuse;
+				} else if (apoapsisDistance < hypotenuse) {
+					apoapsis.x = r.x;
+					apoapsis.y = r.y;
+					apoapsisDistance = hypotenuse;
 				}
 			}
 		}
-
-		periapsisDistance = 100000f;
-		apoapsisDistance = -100000f;
-		trajectoryChanged = false;
+		
+		// Here we have both the ap and the pe so we can calculate the orbit
+		
+		// 1. Find the major axis of the ellipse (width)
+		ellipseWidth = periapsisDistance + apoapsisDistance;
+		
+		// 2. Find the distance between the two foci
+		float fociDistance = apoapsisDistance - periapsisDistance;
+		
+		// 3. Find the minor axis of the ellipse (height)
+		ellipseHeight = (float)Math.sqrt(Math.pow(apoapsisDistance, 2) - Math.pow(fociDistance, 2));
+		
+		// 4. Find the angle between the periapsis and one of the focus of the ellipse (that would be the planet)
+		// This is the angle at which we'll need to rotate the ellipse when drawing it
+		Planet p = planets.get(0);
+		float peToPlanetY = periapsis.y - p.y; // opposite side
+		
+		ellipseAngle = (float)(Math.asin(peToPlanetY / periapsisDistance) / Math.PI * 180);
+		
+		// 5. Find the center of the ellipse
+		ellipseX = (apoapsis.x + periapsis.x) / 2f;
+		ellipseY = (apoapsis.y + periapsis.y) / 2f;
 	}
 
 	public void renderOrbitEllipse(ArrayList<Planet> planets, Rocket rocket, ShapeRenderer shapeRenderer) {
@@ -112,13 +115,18 @@ public class Trajectory {
 		shapeRenderer.circle(periapsis.x, periapsis.y, 4f);
 		shapeRenderer.circle(apoapsis.x, apoapsis.y, 4f);
 		shapeRenderer.end();
-	}
-
-	public float getApoapsisDistance() {
-		return apoapsisDistance;
-	}
-
-	public float getPeriapsisDistance() {
-		return periapsisDistance;
+		
+		shapeRenderer.begin(ShapeType.Line);
+		shapeRenderer.setColor(Color.WHITE);
+		
+		float x = ellipseX - ellipseWidth / 2f;
+		float y = ellipseY - ellipseHeight / 2f;
+		
+		shapeRenderer.translate(x, y, 0f);
+		//shapeRenderer.rotate(0f, 0f, 1f, ellipseAngle);
+		shapeRenderer.ellipse(0f, 0f, ellipseWidth, ellipseHeight);
+		//shapeRenderer.rotate(0f, 0f, 1f, -ellipseAngle);
+		shapeRenderer.translate(-x, -y, 0f);
+		shapeRenderer.end();
 	}
 }

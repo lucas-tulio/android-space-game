@@ -26,7 +26,7 @@ public class Rocket extends Entity {
 		this.height = height;
 
 		fuel = 1f;
-		rotationSpeed = 3f;
+		rotationSpeed = 3f; // in angles
 		force = 0.01f;
 
 		thurst = new Vector2();
@@ -43,7 +43,7 @@ public class Rocket extends Entity {
 		}
 
 		if (thursting) {
-			((SpaceGame)Gdx.app.getApplicationListener()).trajectory.trajectoryChanged = true;
+			((SpaceGame)Gdx.app.getApplicationListener()).trajectory.calculateOrbitEllipse(planets, this);
 			fuel -= 0.001f;
 			if (fuel <= 0f) {
 				thursting = false;

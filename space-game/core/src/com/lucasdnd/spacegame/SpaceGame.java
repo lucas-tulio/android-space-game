@@ -102,15 +102,13 @@ public class SpaceGame extends ApplicationAdapter {
 		// Debug texts
 		batch.begin();
 		font.draw(batch, "Fuel ", 0, Gdx.graphics.getHeight() - 20f);
-		font.draw(batch, "r.x: " + rocket.x, 0, Gdx.graphics.getHeight() - 60f);
-		font.draw(batch, "r.y: " + rocket.y, 0, Gdx.graphics.getHeight() - 80f);
-		font.draw(batch, "p.x: " + planets.get(0).x, 0, Gdx.graphics.getHeight() - 100f);
-		font.draw(batch, "p.y: " + planets.get(0).y, 0, Gdx.graphics.getHeight() - 120f);
-		font.draw(batch, "p.r: " + planets.get(0).radius, 0, Gdx.graphics.getHeight() - 140f);
+		font.draw(batch, "ellipseX: " + trajectory.ellipseX, 0, Gdx.graphics.getHeight() - 60f);
+		font.draw(batch, "ellipseY: " + trajectory.ellipseY, 0, Gdx.graphics.getHeight() - 80f);
+		font.draw(batch, "ellipseWidth: " + trajectory.ellipseWidth, 0, Gdx.graphics.getHeight() - 100f);
+		font.draw(batch, "ellipseHeight: " + trajectory.ellipseHeight, 0, Gdx.graphics.getHeight() - 120f);
+		font.draw(batch, "ellipseAngle: " + trajectory.ellipseAngle, 0, Gdx.graphics.getHeight() - 140f);
 		font.draw(batch, "dist: " + MathUtils.getHypotenuse(rocket.x, rocket.y, planets.get(0).x, planets.get(0).y), 0,
 				Gdx.graphics.getHeight() - 160f);
-		font.draw(batch, "ap: " + trajectory.getApoapsisDistance(), 0, Gdx.graphics.getHeight() - 200f);
-		font.draw(batch, "pe: " + trajectory.getPeriapsisDistance(), 0, Gdx.graphics.getHeight() - 220f);
 		batch.end();
 
 		// Entities
@@ -121,8 +119,7 @@ public class SpaceGame extends ApplicationAdapter {
 		}
 
 		rocket.render(shapeRenderer);
-
-		trajectory.calculateApAndPe(planets, rocket, shapeRenderer);
+		
 		trajectory.renderOrbitEllipse(planets, rocket, shapeRenderer);
 	}
 
