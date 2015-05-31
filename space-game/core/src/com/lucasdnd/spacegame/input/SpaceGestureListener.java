@@ -49,16 +49,16 @@ public class SpaceGestureListener implements GestureListener {
 		float zoom = ((SpaceGame) Gdx.app.getApplicationListener()).getCamera().zoom;
 
 		if (distance >= initialDistance) {
-			if (zoom <= 0.1f) {
-				zoom = 0.1f;
+			if (zoom <= 0.2f) {
+				zoom = 0.2f;
 			} else {
-				zoom -= 0.05f;
+				zoom -= 0.015f;
 			}
 		} else {
-			if (zoom >= 3f) {
-				zoom = 3f;
+			if (zoom >= 2f) {
+				zoom = 2f;
 			} else {
-				zoom += 0.05f;
+				zoom += 0.015f;
 			}
 		}
 
