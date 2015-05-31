@@ -74,11 +74,6 @@ public class SpaceGame extends ApplicationAdapter {
 		}
 
 		rocket.update(planets);
-		
-		// Recalculate the ellipse if the rocket is thursting
-		if (rocket.thursting) {
-			trajectory.calculateOrbitEllipse(planets, rocket);
-		}
 
 		// Make the camera follow the rocket
 		camera.position.set(rocket.x, rocket.y, 0f);
@@ -110,13 +105,8 @@ public class SpaceGame extends ApplicationAdapter {
 		// Debug texts
 		batch.begin();
 		font.draw(batch, "Fuel ", 0, Gdx.graphics.getHeight() - 20f);
-		font.draw(batch, "ellipseX: " + trajectory.ellipseX, 0, Gdx.graphics.getHeight() - 60f);
-		font.draw(batch, "ellipseY: " + trajectory.ellipseY, 0, Gdx.graphics.getHeight() - 80f);
-		font.draw(batch, "ellipseWidth: " + trajectory.ellipseWidth, 0, Gdx.graphics.getHeight() - 100f);
-		font.draw(batch, "ellipseHeight: " + trajectory.ellipseHeight, 0, Gdx.graphics.getHeight() - 120f);
-		font.draw(batch, "ellipseAngle: " + trajectory.ellipseAngle, 0, Gdx.graphics.getHeight() - 140f);
 		font.draw(batch, "dist: " + MathUtils.getHypotenuse(rocket.x, rocket.y, planets.get(0).x, planets.get(0).y), 0,
-				Gdx.graphics.getHeight() - 160f);
+				Gdx.graphics.getHeight() - 40f);
 		batch.end();
 
 		// Entities
@@ -128,7 +118,13 @@ public class SpaceGame extends ApplicationAdapter {
 
 		rocket.render(shapeRenderer);
 		
-		trajectory.renderOrbitEllipse(planets, rocket, shapeRenderer, ellipseRenderer, camera);
+		// Draw the trajectory
+		trajectory.renderTrajectory(planets, rocket, shapeRenderer);
+		
+		if (planets.size() == 1) {
+			trajectory.renderApAndPe(planets.get(0), rocket, shapeRenderer);
+		}
+		
 	}
 
 	public OrthographicCamera getCamera() {
